@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio</title>
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <link rel="stylesheet" href="style.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+  <video autoplay loop muted plays-inline class="back-vid">
+    <source src="images/galaxy.mp4" type="video/mp4">
+  </video>
+  <section class="main-section">
+    <nav>
+      <h1 data-aos="zoom-in" data-aos-duration="1000"><span style="color: #4acfee;">Port</span>folio</h1>
+      <ul>
+        <li data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100"><a class="active" href="">Home </a></li>
+        <li data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200"><a href="About.html">About</a></li>
+        <li data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300"><a href="project.html">Projects</a></li>
+        <li data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400"><a href="Skills.html">skils</a></li>
+        <li data-aos="fade-up" data-aos-duration="1000" data-aos-delay="500"><a href="Contact.html">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="hero">
+      <div class="hero-info">
+        <h1 data-aos="fade-right" data-aos-duration="1000" data-aos-delay="700">Hi, I'm Niladri</h1>
+        <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="900">I'm a Software  Developer</h2>
+        <p data-aos="flip-down" data-aos-duration="1000" data-aos-delay="1000">
+Computer Science Graduate | Python & C Developer | Aspiring Software Engineer.
+
+Passionate about creating innovative solutions and building impactful software projects that make a difference.
+</p>
+        <div class="Buttons">
+          <button class="btn" data-aos="zoom-in-right" data-aos-duration="1000" data-aos-delay="1100"><a href="cv1.pdf" class="btn-link">Download CV</a>  </button> 
+          <ul class="ul-icons">
+            <li><a href="https://github.com/NiladriDattaRoy" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1200"><i class='bx bxl-github'></i></a></li>
+            <li><a href="https://www.linkedin.com/in/niladri-datta-roy-407b89272/" target="_blank" rel="noopener noreferrer"data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1300"><i class='bx bxl-linkedin'></i></a></li>
+            <li><a href="" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1400" ><i class='bx bxl-youtube'></i></a></li>
+            <li><a href="" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1500"><i class='bx bxl-facebook-circle'></i></a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="hero-img" data-aos="zoom-in-left" data-aos-duration="2500">
+        <img src="images/Niladri2.jpg" alt="person-img" >
+      </div>
+    </div>
+
+  
+  </section>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+  <script>
+  <div style="text-align:center; margin-bottom:20px;">
+  <input type="text" id="skillInput" placeholder="Enter a skill" />
+  <button onclick="addSkill()">Add Skill</button>
+</div>
+async function loadSkills() {
+  const res = await fetch("http://127.0.0.1:5000/skills");
+  const data = await res.json();
+
+  const container = document.querySelector(".skills-grid");
+  container.innerHTML = "";
+
+  data.forEach(skill => {
+    const div = document.createElement("div");
+    div.classList.add("skill-card");
+    div.innerHTML = `<span>${skill.name}</span>`;
+    container.appendChild(div);
+  });
+}
+
+async function addSkill() {
+  const input = document.getElementById("skillInput");
+  const skill = input.value;
+
+  await fetch("http://127.0.0.1:5000/add-skill", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ name: skill })
+  });
+
+  input.value = "";
+  loadSkills();
+}
+
+loadSkills();
+</script>
+</body>
+</html>
